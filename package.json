@@ -1,5 +1,5 @@
 {
-    "name": "glass-build",
+    "name": "@glas/build",
     "version": "0.0.0",
     "bin": {
         "guild": "./bin/guild.js"
