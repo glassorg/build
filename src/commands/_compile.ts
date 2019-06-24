@@ -48,6 +48,15 @@ export default function compile(watch: boolean = false, debug: boolean = false) 
         }
     }
 
+    // copy css from src to lib
+    common.copyDirectory(
+        "src", "lib", {
+            watch, filter(content, name) {
+                return name.endsWith(".css") ? content : null
+            }
+        }
+    )
+
     //  copy www directory to lib
     if (common.exists("./src/www")) {
         common.copyDirectory("src/www", "lib/www", {

@@ -1,13 +1,10 @@
-import * as fs from "fs"
-import * as path from "path"
-import { spawn, spawnSync, SpawnOptions } from "child_process"
+import * as fs from "fs";
+import * as path from "path";
+import { spawn, spawnSync, SpawnOptions } from "child_process";
 
 export function getPackageJson() {
     let json = read("package.json")
-    if (json == null) {
-        throw new Error("package.json not found")
-    }
-    return JSON.parse(json)
+    return json ? JSON.parse(json) : null
 }
 
 export function isWebsite() {

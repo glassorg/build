@@ -3,6 +3,8 @@ import path from "path"
 
 //  webpacks the www/*.ts files
 export default function webpack(mode: "watch" | "development" | "production" | "debug" = "development") {
+    // let { name, id } = common.getPackageJson()
+    // let GCP_PROJECT = id || name
     //  get the entry page.ts files
     let files = common.getFilesRecursive("./src/www", /\.ts$/)
     let webRoot = "./lib/www"
@@ -75,7 +77,11 @@ let config = {
             {
                 test: /.svg$/,
                 loader: 'file-loader'
-            }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+            },
         ]
     },
     //  ignore the node "crypto" which is required by sjcl
