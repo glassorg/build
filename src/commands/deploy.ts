@@ -15,4 +15,5 @@ export default function deploy(verbose = false) {
         && common.runSync("gcloud", ["app", "deploy", "-q", `--project=${id || name}`, verbose ? `--verbosity=debug`: ""])
         && common.log(`To debug deployment issues, check the "Cloud Build" logs here:\n  https://console.cloud.google.com/logs/viewer?project=${name}`)
     }
+    common.runSync("say", `${id || name} deployment finished`.split(' '))
 }
