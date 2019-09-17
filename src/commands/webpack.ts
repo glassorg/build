@@ -49,7 +49,7 @@ function getWebPackConfigText(webRoot: string, files: string[]) {
 
     return `
 // must add local build path to node paths
-module.paths.push("${path.join(__dirname, "../../node_modules")}")
+module.paths.push(${JSON.stringify(path.join(__dirname, "../../node_modules"))})
 const path = require("path") 
 const webroot = path.join(process.cwd(), "./lib/www")
 const webpack = require("webpack")
