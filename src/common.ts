@@ -1,6 +1,6 @@
-import * as fs from "fs";
-import * as path from "path";
-import { spawn, spawnSync, SpawnOptions } from "child_process";
+import * as fs from "fs"
+import * as path from "path"
+import { spawn, spawnSync, SpawnOptions } from "child_process"
 
 export function getPackageJson() {
     let json = read("package.json")

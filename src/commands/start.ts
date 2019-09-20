@@ -1,5 +1,5 @@
 import * as common from "../common"
-import { realpathSync } from "fs";
+import { realpathSync } from "fs"
 
 //  starts a web server application
 export default function start(development: boolean = false, debug: boolean = false) {
