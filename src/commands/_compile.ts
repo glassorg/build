@@ -1,9 +1,9 @@
-import * as common from "../common";
-import webpack from "./webpack";
-import start from "./start";
-import test from "./test";
-import path from "path";
-import _copyDefaultFiles from "./_copyDefaultFiles";
+import * as common from "../common"
+import webpack from "./webpack"
+import start from "./start"
+import test from "./test"
+import path from "path"
+import _copyDefaultFiles from "./_copyDefaultFiles"
 
 function copyPackageJson() {
     // TODO: Maybe apply changes from package.json in src

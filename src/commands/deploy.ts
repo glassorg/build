@@ -1,7 +1,7 @@
-import * as common from "../common";
-import webpack from "./webpack";
-import build from "./build";
-import path from "path";
+import * as common from "../common"
+import webpack from "./webpack"
+import build from "./build"
+import path from "path"
 
 //  deploys a web server or publishes a library
 export default function deploy(verbose = false) {

@@ -1,6 +1,6 @@
-import * as fs from "fs";
-import * as path from "path";
-import { spawn, spawnSync, SpawnOptions } from "child_process";
+import * as fs from "fs"
+import * as path from "path"
+import { spawn, spawnSync, SpawnOptions } from "child_process"
 
 export function getPackageJson() {
     let json = read("package.json")
@@ -30,7 +30,7 @@ export function logRun(command: string, args: string[] = [], options?: SpawnOpti
 
 export function run(command: string, args: string[] = [], options?: SpawnOptions) {
     logRun(command, args, options)
-    let cp = spawn(command, args, { stdio: [process.stdin, process.stdout, process.stderr], ...options })
+    let cp = spawn(command, args, { shell: true, stdio: [process.stdin, process.stdout, process.stderr], ...options })
     cp.on("error", (err) => {
         error(`Error running ${command} ${args.join(' ')}: ${err}`)
     })
@@ -38,7 +38,7 @@ export function run(command: string, args: string[] = [], options?: SpawnOptions
 
 export function runSync(command: string, args: string[] = [], options?: SpawnOptions): boolean {
     logRun(command, args, options)
-    let result = spawnSync(command, args, { stdio: [process.stdin, process.stdout, process.stderr], ...options })
+    let result = spawnSync(command, args, { shell: true, stdio: [process.stdin, process.stdout, process.stderr], ...options })
     if (result.error) {
         error(`Error running ${command} ${args.join(' ')}: ${result.error}`)
     }
