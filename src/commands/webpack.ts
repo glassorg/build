@@ -82,6 +82,10 @@ let config = {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
             },
+            {
+                test: /\.(glsl|vs|fs)$/,
+                loader: 'raw-loader',
+            },
         ]
     },
     //  ignore the node "crypto" which is required by sjcl

@@ -48,11 +48,11 @@ export default function compile(watch: boolean = false, debug: boolean = false) 
         }
     }
 
-    // copy css and json from src to lib
+    // copy resource files from src to lib
     common.copyDirectory(
         "src", "lib", {
             watch, filter(content, name) {
-                return /\.(css|json)$/.test(name) ? content : null
+                return /\.(css|json|glsl|fs|vs|png|svg)$/.test(name) ? content : null
             }
         }
     )
