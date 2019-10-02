@@ -2,7 +2,8 @@ import * as common from "../common"
 
 //  runs unit tests
 export default function test(watch: boolean = false) {
-    let hasAva = ( common.getPackageJson().dependencies.ava != null ) || (common.getPackageJson().devDependencies.ava != null)
+    let pack = common.getPackageJson()
+    let hasAva = ( pack.dependencies && pack.dependencies.ava != null ) || (pack.devDependencies && pack.devDependencies.ava != null)
     if (watch) {
         if (hasAva) {
             return common.run("ava", ["--watch", "--verbose"])

@@ -6,7 +6,7 @@
     },
     "scripts": {
         "clean": "rm -rf lib && rm -rf node_modules && yarn unlink",
-        "setup": "yarn install && yarn run build && yarn unlink; yarn link",
+        "setup": "yarn install && yarn run build && ( yarn unlink ; yarn link )",
         "build": "tsc",
         "watch": "tsc -w"
     },
@@ -18,11 +18,12 @@
         "@google-cloud/translate": "^2.1.3",
         "@types/node": "^10.12.9",
         "ava": "^1.0.1",
-        "css-loader": "^3.0.0",
+        "css-loader": "^3.2.0",
+        "file-loader": "^4.2.0",
         "inspect-process": "^0.5.0",
         "nodemon": "^1.18.7",
         "raw-loader": "^3.1.0",
-        "style-loader": "^0.23.1",
+        "style-loader": "^1.0.0",
         "webpack": "^4.25.1",
         "webpack-bundle-analyzer": "^3.3.2",
         "webpack-cli": "^3.1.2",

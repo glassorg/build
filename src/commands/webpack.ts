@@ -47,12 +47,21 @@ function getWebPackConfigText(webRoot: string, files: string[]) {
         }
     }
 
+    function localModulePath(name: string) {
+        return JSON.stringify(path.join(__dirname, "../../node_modules/", name))
+    }
+
+    function requireLocalModule(name: string) {
+        return `require(${localModulePath(name)})`
+    }
+
     return `
 // must add local build path to node paths
 module.paths.push(${JSON.stringify(path.join(__dirname, "../../node_modules"))})
+
 const path = require("path") 
 const webroot = path.join(process.cwd(), "./lib/www")
-const webpack = require("webpack")
+const webpack = ${requireLocalModule("webpack")}
 let config = {
     entry: ${JSON.stringify(entries)},
     output: {
@@ -76,15 +85,15 @@ let config = {
         rules: [
             {
                 test: /.svg$/,
-                loader: 'file-loader'
+                loader: ${localModulePath("file-loader")}
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader'],
+                use: [${localModulePath("style-loader")}, ${localModulePath("css-loader")}],
             },
             {
                 test: /\.(glsl|vs|fs)$/,
-                loader: 'raw-loader',
+                loader: ${JSON.stringify(path.join(__dirname, "../../node_modules/", "raw-loader"))},
             },
         ]
     },
@@ -103,7 +112,7 @@ module.exports = (env, argv) => {
         console.log("PRODUCTION")
     } else {
         console.log("DEBUG")
-        const BundleAnalyzer = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
+        const BundleAnalyzer = ${requireLocalModule("webpack-bundle-analyzer")}.BundleAnalyzerPlugin
         config.plugins.push(new BundleAnalyzer())
     }
 
