@@ -8,5 +8,6 @@ credentials.json
 webpack.config.js
 webpack.server.js
 app.yaml
+.browserslistrc
 .gcloudignore
 .npmrc

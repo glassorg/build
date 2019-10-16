@@ -1,20 +1,30 @@
 import * as common from "../common"
 
+let webFiles = {
+    "app.yaml": false,
+    ".gcloudignore": false
+}
+let allFiles = {
+    "_.gitignore": true,
+    ".gcloudignore": true,
+    "tsconfig.json": true,
+    ".browserslistrc": true
+}
+
 export default function _copyDefaultFiles(watch: boolean = false) {
     let isWebsite = common.isWebsite()
 
-    if (isWebsite) {
-        //  copy the sample app.yaml
-        common.copyFile(`${__dirname}/../../defaultProjectFiles/app.yaml`, "app.yaml", { overwrite: false, watch })
-
-        //  copy the sample .gcloudignore
-        common.copyFile(`${__dirname}/../../defaultProjectFiles/.gcloudignore`, ".gcloudignore", { overwrite: true, watch })
+    function copy(files) {
+        for (let file in files) {
+            let overwrite = files[file]
+            let input = file
+            let output = file.startsWith("_") ? file.slice(1) : file
+            common.copyFile(`${__dirname}/../../defaultProjectFiles/${input}`, output, { overwrite, watch })
+        }
     }
 
-    //  copy the sample .gitignore
-    common.copyFile(`${__dirname}/../../defaultProjectFiles/_.gitignore`, ".gitignore", { overwrite: true, watch })
-
-    //  copy the sample tsconfig.json
-    common.copyFile(`${__dirname}/../../defaultProjectFiles/tsconfig.json`, "tsconfig.json", { overwrite: true, watch })
-
+    if (isWebsite) {
+        copy(webFiles)
+    }
+    copy(allFiles)
 }

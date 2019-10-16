@@ -4,6 +4,7 @@ import start from "./start"
 import test from "./test"
 import path from "path"
 import _copyDefaultFiles from "./_copyDefaultFiles"
+import parcel from "./parcel"
 
 function copyPackageJson() {
     // TODO: Maybe apply changes from package.json in src
@@ -30,6 +31,7 @@ export default function compile(watch: boolean = false, debug: boolean = false) 
 
     //  copy www from dependent libraries
     let packageJson = JSON.parse(common.read("package.json")!)!
+    let useParcel = (packageJson.devDependencies || packageJson.dependencies || {})["parcel-bundler"] != null
     for (let name in packageJson.dependencies || {}) {
         let sourceDir = path.join(`./node_modules/${name}/www`)
         if (common.exists(sourceDir)) {
@@ -52,7 +54,7 @@ export default function compile(watch: boolean = false, debug: boolean = false) 
     common.copyDirectory(
         "src", "lib", {
             watch, filter(content, name) {
-                return /\.(css|json|glsl|fs|vs|png|svg)$/.test(name) ? content : null
+                return /\.(css|json|glsl|vert|frag|png|svg)$/.test(name) ? content : null
             }
         }
     )
@@ -70,21 +72,30 @@ export default function compile(watch: boolean = false, debug: boolean = false) 
         })
     }
 
+    function bundle() {
+        if (useParcel) {
+            parcel(watch ? "watch" : "build")
+        }
+        else {
+            start(true, debug)
+            webpack(watch ? "watch" : "production")
+        }
+    }
+
     if (watch) {
         common.watchFile("package.json", copyPackageJson)
         common.run("tsc", ["-w"])
         if (isWebsite) {
-            start(true, debug)
-            webpack("watch")
+            bundle()
         }
-        // delay the test start a few seconds
-        setTimeout(() => {
-            test(true)
-        }, 4000)
+        // // delay the test start a few seconds
+        // setTimeout(() => {
+        //     test(true)
+        // }, 4000)
     } else {
         copyPackageJson()
         return common.runSync("tsc", [])
-            && (isWebsite ? webpack("production") : true)
+            && (isWebsite ? bundle() : true)
             // && test()
     }
 }

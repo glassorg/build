@@ -92,7 +92,7 @@ let config = {
                 use: [${localModulePath("style-loader")}, ${localModulePath("css-loader")}],
             },
             {
-                test: /\.(glsl|vs|fs)$/,
+                test: /\.(glsl|vert|frag)$/,
                 loader: ${JSON.stringify(path.join(__dirname, "../../node_modules/", "raw-loader"))},
             },
         ]
