@@ -74,11 +74,13 @@ export default function compile(watch: boolean = false, debug: boolean = false) 
 
     function bundle() {
         if (useParcel) {
-            parcel(watch ? "watch" : "build")
+            return parcel(watch ? "watch" : "build")
         }
         else {
-            start(true, debug)
-            webpack(watch ? "watch" : "production")
+            if (watch) {
+                start(true, debug)
+            }
+            return webpack(watch ? "watch" : "production")
         }
     }
 

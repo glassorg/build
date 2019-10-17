@@ -2,16 +2,28 @@ import * as common from "../common"
 import path from "path"
 import compile from "./_compile"
 import _copyDefaultFiles from "./_copyDefaultFiles"
+import fs from "fs"
 
+/**
+ * Automatically links to any peer projects that are within your dependencies.
+ */
 function linkToLocalDependencies() {
-    let { link } = common.getPackageJson()
-    console.log("make this link smartly by checking peer directories")
-    // if (Array.isArray(link)) {
-    //     for (let dependency of link) {
-    //         if (!common.runSync("yarn", ["link", dependency]))
-    //             return false
-    //     }
-    // }
+    let thisPackage = common.getPackageJson()
+    let deps = Object.assign({}, thisPackage.dependencies, thisPackage.devDependencies)
+
+    let parent = path.dirname(process.cwd())
+    let peers = fs.readdirSync(parent)
+    for (let peer of peers) {
+        let packagePath = path.join(parent, peer, "package.json")
+        if (common.exists(packagePath)) {
+            let peerPackage = JSON.parse(common.read(packagePath)!)
+            if (deps[peerPackage.name]) {
+                if (!common.runSync("yarn", ["link", peerPackage.name])) {
+                    return false
+                }
+            }
+        }
+    }
     return true
 }
 

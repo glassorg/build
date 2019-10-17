@@ -11,3 +11,5 @@ app.yaml
 .browserslistrc
 .gcloudignore
 .npmrc
+.cache
+dist
