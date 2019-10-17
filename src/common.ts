@@ -56,6 +56,8 @@ export function exists(file: string) {
 export function readBuffer(file: string): Buffer | null {
     if (!exists(file))
         return null
+    if (isDirectory(file))
+        throw new Error(file + " is a directory")
     return fs.readFileSync(file)
 }
 
@@ -156,19 +158,21 @@ export function watchDirectory(file: string, match: RegExp = /./, callback: ((fi
         if (!watched[dir] && (recursive && !recursiveOptionWorks || dir === file)) {
             watched[dir] = true
             fs.watch(dir, { recursive }, (eventType, subname) => {
-                let relativeName = path.relative(file, path.join(dir, subname))
-                onchange(relativeName)
+                let fullname = path.join(dir, subname)
+                if (exists(fullname) && !isDirectory(fullname)) {
+                    let relativeName = fullname.slice(file.length)
+                    // console.log({ file, dir, subname, fullname, relativeName})
+                    callback(relativeName)
+                }
             })
         }
     }
-    function onchange(filename, fullname = path.join(file, filename)) {
+
+    for (let filename of getFilesRecursive(file, match)) {
+        let fullname = path.join(file, filename)
         let dir = isDirectory(fullname) ? fullname : path.dirname(fullname)
         watch(dir)
         callback(filename)
-    }
-
-    for (let filename of getFilesRecursive(file, match)) {
-        onchange(filename)
     }
 
     watch(file)
