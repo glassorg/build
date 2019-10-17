@@ -20,7 +20,7 @@ export default function setup() {
     _copyDefaultFiles(false)
 
     linkToLocalDependencies()
-    // && compile(false)
+    && compile(false)
     && (() => {
         common.runSync("yarn", ["unlink"], { cwd: path.join(process.cwd(), "./lib") })
         common.runSync("yarn", ["link"], { cwd: path.join(process.cwd(), "./lib") })
