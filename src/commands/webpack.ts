@@ -3,7 +3,6 @@ import path from "path"
 
 //  webpacks the www/*.ts files
 export default function webpack(mode: "watch" | "development" | "production" | "debug" = "development") {
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + mode)
     // let { name, id } = common.getPackageJson()
     // let GCP_PROJECT = id || name
     //  get the entry page.ts files

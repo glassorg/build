@@ -36,7 +36,7 @@ export function run(command: string, args: string[] = [], options?: SpawnOptions
     })
 }
 
-export function runSync(command: string, args: string[] = [], options?: SpawnOptions): boolean {
+export function runSync(command: string, args: string[] = [], options?): boolean {
     logRun(command, args, options)
     let result = spawnSync(command, args, { shell: true, stdio: [process.stdin, process.stdout, process.stderr], ...options })
     if (result.error) {
@@ -131,7 +131,6 @@ export function copyDirectory(
     if (options.watch) {
         console.log("Watching: " + from + " => " + to)
         watchDirectory(from, /./, file => {
-            console.log("Spotted change: " + file)
             copyDescendantFile(file)
         })
     } else {
@@ -151,13 +150,28 @@ export function watchFile(file: string, callback: ((filename) => void)) {
 }
 
 export function watchDirectory(file: string, match: RegExp = /./, callback: ((filename: string) => void), recursive: boolean = true) {
-    for (let filename of getFilesRecursive(file, match)) {
+    let recursiveOptionWorks = process.platform === "darwin"    // fs.watch(, { recursive }) only works on mac for some reason
+    let watched: any = {}
+    function watch(dir) {
+        if (!watched[dir] && (recursive && !recursiveOptionWorks || dir === file)) {
+            watched[dir] = true
+            fs.watch(dir, { recursive }, (eventType, subname) => {
+                let relativeName = path.relative(file, path.join(dir, subname))
+                onchange(relativeName)
+            })
+        }
+    }
+    function onchange(filename, fullname = path.join(file, filename)) {
+        let dir = isDirectory(fullname) ? fullname : path.dirname(fullname)
+        watch(dir)
         callback(filename)
     }
 
-    fs.watch(file, { recursive }, (eventType, filename) => {
-        callback(filename.toString())
-    })
+    for (let filename of getFilesRecursive(file, match)) {
+        onchange(filename)
+    }
+
+    watch(file)
 }
 
 export function isFile(file: string) {
