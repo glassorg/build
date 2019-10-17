@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const path = require("path")
-const common = require("../lib/common")
+const common = require("../lib/common.js")
 const [,,name, argumentJSON] = process.argv
 
 //  add the local bin path to the environment variable PATH
