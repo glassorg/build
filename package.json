@@ -6,7 +6,7 @@
     },
     "scripts": {
         "clean": "rm -rf lib && rm -rf node_modules && yarn unlink",
-        "setup": "yarn install && cp ./defaultProjectFiles/tsconfig.json ./ && yarn run build && ( yarn unlink ; yarn link )",
+        "setup": "yarn install && yarn run build && ( yarn unlink ; yarn link )",
         "build": "tsc",
         "watch": "tsc -w",
         "deploy": "yarn publish --access public"
