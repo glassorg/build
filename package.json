@@ -1,6 +1,6 @@
 {
     "name": "@glas/build",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "bin": {
         "guild": "./bin/guild.js"
     },
@@ -9,7 +9,7 @@
         "setup": "yarn install && yarn run build && ( yarn unlink ; yarn link )",
         "build": "tsc",
         "watch": "tsc -w",
-        "deploy": "yarn publish --access public"
+        "deploy": "yarn run build && yarn publish --access public"
     },
     "main": "index.js",
     "repository": "https://github.com/krisnye/glass-build.git",
