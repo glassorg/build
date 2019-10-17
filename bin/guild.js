@@ -33,12 +33,6 @@ if (name == null) {
     }
     return 0
 } else {
-    // let package = common.getPackageJson()
-    // let packageScript = package && package.scripts && package.scripts[name]
-    // if (packageScript != null) {
-    //     common.runSync("yarn", ["run", name])
-    //     return 1
-    // }
     let command = require(`../lib/commands/${name}`).default
     if (command == null) {
         console.error(`Command not found: ${name}`)

@@ -4,6 +4,11 @@ Contains common build and deployment scripts.
 ## Dependencies
 Yarn
 
+## Windows Setup
+
+Follow the instructions here to setup node on an Ubuntu subsystem:
+https://gist.github.com/noygal/6b7b1796a92d70e24e35f94b53722219
+
 ## Setup
 
     git clone https://github.com/glassorg/build.git

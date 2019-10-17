@@ -3,6 +3,7 @@ import path from "path"
 
 //  webpacks the www/*.ts files
 export default function webpack(mode: "watch" | "development" | "production" | "debug" = "development") {
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + mode)
     // let { name, id } = common.getPackageJson()
     // let GCP_PROJECT = id || name
     //  get the entry page.ts files
@@ -99,18 +100,16 @@ let config = {
     },
     //  ignore the node "crypto" which is required by sjcl
     plugins: [
-        new webpack.IgnorePlugin(/^crypto$/),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.IgnorePlugin(/^crypto$/)
     ]
 }
 
 module.exports = (env, argv) => {
-
     if (argv.mode === "development") {
         console.log("DEVELOPMENT")
     } else if (argv.mode === "production") {
         console.log("PRODUCTION")
-    } else {
+    } else if (argv.mode === "debug") {
         console.log("DEBUG")
         const BundleAnalyzer = ${requireLocalModule("webpack-bundle-analyzer")}.BundleAnalyzerPlugin
         config.plugins.push(new BundleAnalyzer())

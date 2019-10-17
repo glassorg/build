@@ -129,7 +129,9 @@ export function copyDirectory(
     }
 
     if (options.watch) {
+        console.log("Watching: " + from + " => " + to)
         watchDirectory(from, /./, file => {
+            console.log("Spotted change: " + file)
             copyDescendantFile(file)
         })
     } else {
