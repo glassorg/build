@@ -9,6 +9,9 @@ Yarn
 Follow the instructions here to setup node on an Ubuntu subsystem:
 https://gist.github.com/noygal/6b7b1796a92d70e24e35f94b53722219
 
+Exclude Linux Subsystem from Windows Defender
+https://www.cicoria.com/improving-windows-subsystem-for-linux-wsl-by-500-minutes-to-seconds/
+
 ## Setup
 
     git clone https://github.com/glassorg/build.git
