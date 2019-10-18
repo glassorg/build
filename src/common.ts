@@ -36,7 +36,7 @@ export function run(command: string, args: string[] = [], options?: SpawnOptions
     })
 }
 
-export function runSync(command: string, args: string[] = [], options?: SpawnOptions): boolean {
+export function runSync(command: string, args: string[] = [], options?): boolean {
     logRun(command, args, options)
     let result = spawnSync(command, args, { shell: true, stdio: [process.stdin, process.stdout, process.stderr], ...options })
     if (result.error) {
@@ -56,6 +56,8 @@ export function exists(file: string) {
 export function readBuffer(file: string): Buffer | null {
     if (!exists(file))
         return null
+    if (isDirectory(file))
+        throw new Error(file + " is a directory")
     return fs.readFileSync(file)
 }
 
@@ -129,9 +131,7 @@ export function copyDirectory(
     }
 
     if (options.watch) {
-        console.log("Watching: " + from + " => " + to)
         watchDirectory(from, /./, file => {
-            console.log("Spotted change: " + file)
             copyDescendantFile(file)
         })
     } else {
@@ -151,13 +151,30 @@ export function watchFile(file: string, callback: ((filename) => void)) {
 }
 
 export function watchDirectory(file: string, match: RegExp = /./, callback: ((filename: string) => void), recursive: boolean = true) {
+    let recursiveOptionWorks = process.platform === "darwin"    // fs.watch(, { recursive }) only works on mac for some reason
+    let watched: any = {}
+    function watch(dir) {
+        if (!watched[dir] && (recursive && !recursiveOptionWorks || dir === file)) {
+            watched[dir] = true
+            fs.watch(dir, { recursive }, (eventType, subname) => {
+                let fullname = path.join(dir, subname)
+                if (exists(fullname) && !isDirectory(fullname)) {
+                    let relativeName = fullname.slice(file.length)
+                    // console.log({ file, dir, subname, fullname, relativeName})
+                    callback(relativeName)
+                }
+            })
+        }
+    }
+
     for (let filename of getFilesRecursive(file, match)) {
+        let fullname = path.join(file, filename)
+        let dir = isDirectory(fullname) ? fullname : path.dirname(fullname)
+        watch(dir)
         callback(filename)
     }
 
-    fs.watch(file, { recursive }, (eventType, filename) => {
-        callback(filename.toString())
-    })
+    watch(file)
 }
 
 export function isFile(file: string) {
