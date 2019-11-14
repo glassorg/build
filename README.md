@@ -25,6 +25,10 @@ Also install python:
     yarn setup
     (sudo yarn setup) if Linux
 
+## Updating Visual Studio Code to use your local latest version of Typescript
+
+    https://stackoverflow.com/questions/39668731/what-typescript-version-is-visual-studio-code-using-how-to-update-it
+
 ## Usage
 Run "guild" to display a list of available commands.
 

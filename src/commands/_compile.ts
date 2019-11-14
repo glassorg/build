@@ -90,10 +90,10 @@ export default function compile(watch: boolean = false, debug: boolean = false) 
         if (isWebsite) {
             bundle()
         }
-        // // delay the test start a few seconds
-        // setTimeout(() => {
-        //     test(true)
-        // }, 4000)
+        // delay the test start a few seconds
+        setTimeout(() => {
+            test(true)
+        }, 4000)
     } else {
         copyPackageJson()
         return common.runSync("tsc", [])

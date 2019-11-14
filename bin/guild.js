@@ -25,12 +25,12 @@ if (name == null) {
             let comment = result[2]
             let signature = result[3].slice(0, -2).trim()
             console.log(`      // ${comment}`)
-            console.log(`      ${signature}
-            `)
+            console.log(`      ${signature}`)
         } else {
             throw new Error("Could not parse command:\n" + source)
         }
     }
+    console.log("")
     return 0
 } else {
     let command = require(`../lib/commands/${name}`).default

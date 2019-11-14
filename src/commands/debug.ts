@@ -9,5 +9,5 @@ export default function debug() {
     }
     let [debugFile] = files
     // inspect  some/test/file.js
-    common.runSync("inspect", ["node_modules/ava/profile.js", debugFile])
+    common.runSync("node", ["--inspect-brk", "node_modules/ava/profile.js", debugFile])
 }
