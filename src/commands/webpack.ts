@@ -100,7 +100,11 @@ let config = {
     //  ignore the node "crypto" which is required by sjcl
     plugins: [
         new webpack.IgnorePlugin(/^crypto$/)
-    ]
+    ],
+    externals: [
+        // added because firebase tries to import them all at runtime
+        'child_process', 'dns', 'fs', 'net', 'tls', 'http2'
+    ] 
 }
 
 module.exports = (env, argv) => {

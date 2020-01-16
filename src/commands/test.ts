@@ -4,12 +4,13 @@ import * as common from "../common"
 export default function test(watch: boolean = false) {
     let pack = common.getPackageJson()
     let hasAva = ( pack.dependencies && pack.dependencies.ava != null ) || (pack.devDependencies && pack.devDependencies.ava != null)
+    let options = { cwd: "lib" }
     if (watch) {
         if (hasAva) {
-            return common.run("ava", ["--watch", "--verbose"])
+            return common.run("ava", ["--watch", "--verbose"], options)
         }
     }
     else {
-        return common.runSync("ava", [])
+        return common.runSync("ava", [], options)
     }
 }
