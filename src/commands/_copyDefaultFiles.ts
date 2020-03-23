@@ -5,9 +5,9 @@ let webFiles = {
     ".gcloudignore": false
 }
 let allFiles = {
-    "_.gitignore": true,
+    "_.gitignore": false,
     ".gcloudignore": true,
-    "tsconfig.json": true,
+    "tsconfig.json": false,
     ".browserslistrc": true
 }
 
