@@ -2,7 +2,8 @@
     "name": "@glas/build",
     "version": "0.2.7",
     "bin": {
-        "guild": "./bin/guild.js"
+        "guild": "./bin/guild.js",
+        "gtest": "./bin/gtest.js"
     },
     "scripts": {
         "clean": "rm -rf lib && rm -rf node_modules && yarn unlink",
